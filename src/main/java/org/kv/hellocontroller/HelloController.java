@@ -1,24 +1,24 @@
 package org.kv.hellocontroller;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.Map;
+
 @Controller
-@RequestMapping("/greet")
 public class HelloController{
 
-	@RequestMapping("/welcome")
-	public ModelAndView helloWorld(){
-		ModelAndView modelAndView = new ModelAndView("HelloPage");
-		modelAndView.addObject("msg","Hello World");
-		return modelAndView;
-	}
+	@RequestMapping("/welcome/{countryName}/{userName}")
+	public ModelAndView helloWorld(@PathVariable Map<String,String> pathVars){
 
-	@RequestMapping("/hi")
-	public ModelAndView hiWorld(){
+		String name = pathVars.get("userName");
+		String country = pathVars.get("countryName");
+
 		ModelAndView modelAndView = new ModelAndView("HelloPage");
-		modelAndView.addObject("msg","Hi World");
+		modelAndView.addObject("msg","Hello " + name + " You are from " + country);
+
 		return modelAndView;
 	}
 }
