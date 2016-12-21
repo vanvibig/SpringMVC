@@ -1,12 +1,19 @@
 package org.kv.studentadmissioncontroller;
 
+import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.Map;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 
 /**
  * Created by KV on 20/12/2016.
@@ -14,27 +21,41 @@ import java.util.Map;
 
 
 @Controller
-@RequestMapping("/admissionForm")
 public class StudentAdmissionController {
 
-//	@RequestMapping(value = "/admissionForm.html",method = RequestMethod.GET)
-	@RequestMapping(method = RequestMethod.GET)
+	@InitBinder
+	public void initBinder(WebDataBinder binder){
+		binder.setDisallowedFields("studentMobile");
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy****MM****dd");
+		binder.registerCustomEditor(
+				Date.class,
+				"studentDOB",
+				new CustomDateEditor(dateFormat,
+				false));
+	}
+
+	@RequestMapping(value = "/admissionForm.html",method = RequestMethod.GET)
 	public ModelAndView getAdmissionForm(){
 		ModelAndView model = new ModelAndView("AdmissionForm");
 		return model;
 	}
 
-//	@RequestMapping(value = "/submitAdmissionForm.html", method = RequestMethod.POST)
-	@RequestMapping(method = RequestMethod.POST)
+	@ModelAttribute
+	public void addingCommonObjects(Model model){
+		model.addAttribute("headerMessage","Gontu College of Engineering, India");
+	}
+
+	@RequestMapping(value = "/submitAdmissionForm.html", method = RequestMethod.POST)
 		public ModelAndView submitAdmissionForm(
-			@RequestParam Map<String,String> reqMap
-			){
+				@ModelAttribute("student1") Student student1,
+				BindingResult result){
 
-		String name = reqMap.get("studentName");
-		String hobby = reqMap.get("studentHobby");
-		ModelAndView modelAndView = new ModelAndView("AdmissionSuccess");
-		modelAndView.addObject("msg","Details submitted by you:: Name: " + name + ", Hobby: " + hobby);
+		if(result.hasErrors()){
+			return new ModelAndView("AdmissionForm");
+		}
 
-		return modelAndView;
+		ModelAndView model = new ModelAndView("AdmissionSuccess");
+
+		return model;
 	}
 }
