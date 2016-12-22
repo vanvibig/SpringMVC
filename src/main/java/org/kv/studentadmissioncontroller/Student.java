@@ -1,5 +1,6 @@
 package org.kv.studentadmissioncontroller;
 
+import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -9,10 +10,16 @@ import java.util.Date;
 public class Student {
 
 	private String studentName;
+
+	@Size(min=2, max=30)
 	private String studentHobby;
+
 	private Long studentMobile;
+
 	private Date studentDOB;
+
 	private ArrayList<String> studentSkills;
+
 	private Address studentAddress;
 
 	public String getStudentName() {
