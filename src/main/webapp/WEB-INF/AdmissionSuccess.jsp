@@ -1,7 +1,8 @@
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <html>
 <body>
 
-	<h1>${headerMessage}</h1>
+	<h1><spring:message code="label.headerMessage"/> </h1>
 
 	<h3>Congratulation!! The Engineering college has processed your Application form successfully</h3>
 

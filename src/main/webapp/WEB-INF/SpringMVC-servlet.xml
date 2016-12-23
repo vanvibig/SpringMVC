@@ -17,11 +17,20 @@
 	<mvc:annotation-driven/>
 
 	<mvc:interceptors>
+
 		<mvc:interceptor>
 			<mvc:mapping path="/admissionForm.html"/>
 			<bean class="org.kv.studentadmissioncontroller.DayOfWeekBasedAccessInterceptor"/>
 		</mvc:interceptor>
+
+		<bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">
+			<property name="paramName" value="siteLanguage"/>
+		</bean>
+
 	</mvc:interceptors>
+
+	<bean id="localeResolver"
+	      class="org.springframework.web.servlet.i18n.CookieLocaleResolver"/>
 
 	<bean id="viewResolver"
 	      class="org.springframework.web.servlet.view.InternalResourceViewResolver">
@@ -31,5 +40,8 @@
 
 	<bean id="messageSource"
 	      class="org.springframework.context.support.ReloadableResourceBundleMessageSource"
-	      p:basename="/WEB-INF/studentmessages"/>
+	      p:basename="/WEB-INF/studentmessages">
+		<property name="defaultEncoding" value="UTF-8"/>
+	</bean>
+
 </beans>
