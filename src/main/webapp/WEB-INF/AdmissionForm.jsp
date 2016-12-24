@@ -5,6 +5,11 @@
 <html>
 <body>
 
+	<link rel="stylesheet" href="<spring:theme code="styleSheet"/>" type="text/css"/>
+
+	<p><a href="/admissionForm.html?siteTheme=green">Green</a> |
+		<a href="/admissionForm.html?siteTheme=red">Red</a></p>
+	
 	<a href="/admissionForm.html?siteLanguage=en">En</a> |
 	<a href="/admissionForm.html?siteLanguage=vi">Vi</a>
 

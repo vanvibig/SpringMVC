@@ -15,6 +15,8 @@
 	<context:component-scan base-package="org.kv.studentadmissioncontroller" />
 
 	<mvc:annotation-driven/>
+	
+	<mvc:resources mapping="/resources/**" location="/WEB-INF/"/>
 
 	<mvc:interceptors>
 
@@ -27,10 +29,16 @@
 			<property name="paramName" value="siteLanguage"/>
 		</bean>
 
+		<bean class="org.springframework.web.servlet.theme.ThemeChangeInterceptor">
+			<property name="paramName" value="siteTheme"/>
+		</bean>
+
 	</mvc:interceptors>
 
 	<bean id="localeResolver"
-	      class="org.springframework.web.servlet.i18n.CookieLocaleResolver"/>
+	      class="org.springframework.web.servlet.i18n.CookieLocaleResolver">
+		<property name="defaultLocale" value="en" />
+	</bean>
 
 	<bean id="viewResolver"
 	      class="org.springframework.web.servlet.view.InternalResourceViewResolver">
@@ -42,6 +50,16 @@
 	      class="org.springframework.context.support.ReloadableResourceBundleMessageSource"
 	      p:basename="/WEB-INF/studentmessages">
 		<property name="defaultEncoding" value="UTF-8"/>
+	</bean>
+
+	<bean id="themeSource"
+	      class="org.springframework.ui.context.support.ResourceBundleThemeSource">
+		<property name="basenamePrefix" value="theme-"/>
+	</bean>
+
+	<bean id="themeResolver"
+	      class="org.springframework.web.servlet.theme.CookieThemeResolver">
+		<property name="defaultThemeName" value="green"/>
 	</bean>
 
 </beans>
